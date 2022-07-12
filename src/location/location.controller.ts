@@ -1,10 +1,13 @@
-import { Controller, Get, UseGuards, UseInterceptors } from '@nestjs/common';
+import { ClassSerializerInterceptor, Controller } from '@nestjs/common';
+import { Get, UseGuards, UseInterceptors } from '@nestjs/common';
 
 import { RealIp } from 'src/common/decorators';
 import { RateLimitGuard } from 'src/common/guards';
 import { HttpCacheInterceptor } from 'src/common/interceptors';
+import { LocationResponseDto } from './dto';
 import { LocationService } from './location.service';
 
+@UseInterceptors(ClassSerializerInterceptor)
 @UseInterceptors(HttpCacheInterceptor)
 @UseGuards(RateLimitGuard)
 @Controller('location')
@@ -12,7 +15,7 @@ export class LocationController {
   constructor(private locationService: LocationService) {}
 
   @Get()
-  async getLocation(@RealIp() ip: string): Promise<any> {
-    return this.locationService.getLocation(ip);
+  async getLocation(@RealIp() ip: string): Promise<LocationResponseDto> {
+    return await this.locationService.getLocation(ip);
   }
 }

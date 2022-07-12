@@ -1,11 +1,13 @@
-import { Controller, Get, Param } from '@nestjs/common';
-import { UseGuards, UseInterceptors } from '@nestjs/common';
+import { ClassSerializerInterceptor, Controller, Get } from '@nestjs/common';
+import { Param, UseGuards, UseInterceptors } from '@nestjs/common';
 
 import { RealIp } from 'src/common/decorators';
 import { RateLimitGuard } from 'src/common/guards';
 import { HttpCacheInterceptor } from 'src/common/interceptors';
 import { CurrentService } from './current.service';
+import { CurrenParamsDto, CurrentResponseDto } from './dto';
 
+@UseInterceptors(ClassSerializerInterceptor)
 @UseInterceptors(HttpCacheInterceptor)
 @UseGuards(RateLimitGuard)
 @Controller('current')
@@ -15,8 +17,8 @@ export class CurrentController {
   @Get(':city?')
   async getCurrentWeather(
     @RealIp() ip: string,
-    @Param('city') city?: string,
-  ): Promise<any> {
-    return this.currentService.getCurrentWeather(ip, city);
+    @Param() params: CurrenParamsDto,
+  ): Promise<CurrentResponseDto> {
+    return await this.currentService.getCurrentWeather(ip, params.city);
   }
 }

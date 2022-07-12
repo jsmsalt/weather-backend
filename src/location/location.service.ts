@@ -1,16 +1,19 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 
 import { GeolocationService } from 'src/common/modules/geolocation/geolocation.service';
+import { InvalidIpException } from 'src/common/responses';
+import { LocationResponseDto } from './dto';
 
 @Injectable()
 export class LocationService {
   constructor(private geolocationService: GeolocationService) {}
 
-  async getLocation(ip: string): Promise<any> {
+  async getLocation(ip: string): Promise<LocationResponseDto> {
     const response = await this.geolocationService.getLocation(ip);
 
-    if (response && response.status === 'success') return response;
+    if (response && response.status === 'success')
+      return new LocationResponseDto(response);
 
-    throw new HttpException(response.message, HttpStatus.BAD_REQUEST);
+    throw new InvalidIpException();
   }
 }

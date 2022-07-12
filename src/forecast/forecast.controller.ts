@@ -1,11 +1,13 @@
-import { Controller, Get, Param } from '@nestjs/common';
-import { UseGuards, UseInterceptors } from '@nestjs/common';
+import { ClassSerializerInterceptor, Controller, Get } from '@nestjs/common';
+import { Param, UseGuards, UseInterceptors } from '@nestjs/common';
 
 import { RealIp } from 'src/common/decorators';
 import { RateLimitGuard } from 'src/common/guards';
 import { HttpCacheInterceptor } from 'src/common/interceptors';
+import { ForecastParamsDto, ForecastResponseDto } from './dto';
 import { ForecastService } from './forecast.service';
 
+@UseInterceptors(ClassSerializerInterceptor)
 @UseInterceptors(HttpCacheInterceptor)
 @UseGuards(RateLimitGuard)
 @Controller('forecast')
@@ -15,8 +17,8 @@ export class ForecastController {
   @Get(':city?')
   async getForecast(
     @RealIp() ip: string,
-    @Param('city') city?: string,
-  ): Promise<any> {
-    return await this.forecastService.getForecast(ip, city);
+    @Param() params: ForecastParamsDto,
+  ): Promise<ForecastResponseDto> {
+    return await this.forecastService.getForecast(ip, params.city);
   }
 }
