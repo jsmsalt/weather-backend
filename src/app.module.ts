@@ -1,4 +1,5 @@
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
 
 import { ClientIpMiddleware } from './common/middlewares';
 import { GeolocationModule } from './common/modules/geolocation/geolocation.module';
@@ -9,6 +10,9 @@ import { LocationModule } from './location/location.module';
 
 @Module({
   imports: [
+    ConfigModule.forRoot({
+      isGlobal: true,
+    }),
     LocationModule,
     CurrentModule,
     ForecastModule,

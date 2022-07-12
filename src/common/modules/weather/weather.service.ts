@@ -1,21 +1,20 @@
 import { Injectable } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { ApisauceInstance, create } from 'apisauce';
-import {
-  ICurrentResponse,
-  IForecastResponse,
-  IGeocodingResponse,
-} from './interfaces';
+
+import { ICurrentResponse } from './interfaces';
+import { IForecastResponse, IGeocodingResponse } from './interfaces';
 
 @Injectable()
 export class WeatherService {
   private readonly httpClient: ApisauceInstance;
 
-  constructor() {
+  constructor(private configService: ConfigService) {
     this.httpClient = create({
       baseURL: 'https://api.openweathermap.org',
       headers: { Accept: 'application/json' },
       params: {
-        appid: '',
+        appid: this.configService.get<string>('OPEN_WEATHER_MAP_KEY'),
         units: 'metric',
         lang: 'es',
         limit: 5,
