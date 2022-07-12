@@ -1,5 +1,6 @@
 import { Exclude, Expose } from 'class-transformer';
 import { IsString, IsOptional } from 'class-validator';
+
 import { IForecastResponse } from 'src/common/modules/weather/interfaces';
 
 export class ForecastParamsDto {
