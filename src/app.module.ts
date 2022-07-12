@@ -1,5 +1,12 @@
-import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
+import {
+  CacheModule,
+  MiddlewareConsumer,
+  Module,
+  NestModule,
+} from '@nestjs/common';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import { ThrottlerModule } from '@nestjs/throttler';
+import redisStore from 'cache-manager-redis-store';
 
 import { ClientIpMiddleware } from './common/middlewares';
 import { GeolocationModule } from './common/modules/geolocation/geolocation.module';
@@ -12,6 +19,26 @@ import { LocationModule } from './location/location.module';
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
+    }),
+    CacheModule.registerAsync({
+      isGlobal: true,
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      extraProviders: [],
+      useFactory: (configService: ConfigService) => ({
+        ttl: configService.get<number>('CACHE_TTL', 300),
+        store: redisStore,
+        host: configService.get<string>('REDIS_HOST', 'localhost'),
+        port: configService.get<number>('REDIS_PORT', 6379),
+      }),
+    }),
+    ThrottlerModule.forRootAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: (configService: ConfigService) => ({
+        ttl: configService.get<number>('THROTTLE_TTL', 60),
+        limit: configService.get<number>('THROTTLE_LIMIT', 60),
+      }),
     }),
     LocationModule,
     CurrentModule,
