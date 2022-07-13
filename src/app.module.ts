@@ -6,7 +6,7 @@ import {
 } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { ThrottlerModule } from '@nestjs/throttler';
-import redisStore from 'cache-manager-redis-store';
+import * as redisStore from 'cache-manager-redis-store';
 
 import { ClientIpMiddleware } from './common/middlewares';
 import { GeolocationModule } from './common/modules/geolocation/geolocation.module';
@@ -28,8 +28,7 @@ import { LocationModule } from './location/location.module';
       useFactory: (configService: ConfigService) => ({
         ttl: configService.get<number>('CACHE_TTL', 300),
         store: redisStore,
-        host: configService.get<string>('REDIS_HOST', 'localhost'),
-        port: configService.get<number>('REDIS_PORT', 6379),
+        url: configService.get<string>('REDIS_URL'),
       }),
     }),
     ThrottlerModule.forRootAsync({

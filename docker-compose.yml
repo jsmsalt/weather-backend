@@ -6,15 +6,25 @@ services:
     ports:
       - 6379:6379
 
+  redis-commander:
+    image: rediscommander/redis-commander:latest
+    environment:
+      - REDIS_HOSTS=local:redis:6379
+    ports:
+      - "8081:8081"
+    depends_on:
+        - redis
+
   api:
     build: .
     environment:
       - OPEN_WEATHER_MAP_KEY=477e687e73bd2028a642968cd1c2aead
-      - REDIS_HOST=redis
-      - REDIS_PORT=6379
+      - REDIS_URL=redis://redis:6379/0
       - CACHE_TTL=300
       - THROTTLE_TTL=60
       - THROTTLE_LIMIT=60
       - NODE_ENV=production
     ports:
       - 3000:3000
+    depends_on:
+        - redis
