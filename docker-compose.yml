@@ -24,7 +24,8 @@ services:
       - THROTTLE_TTL=60
       - THROTTLE_LIMIT=60
       - NODE_ENV=production
+      - PORT=8080
     ports:
-      - 3000:3000
+      - 8080:8080
     depends_on:
         - redis
