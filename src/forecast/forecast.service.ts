@@ -1,8 +1,10 @@
 import { Injectable } from '@nestjs/common';
 
-import { GeolocationService } from 'src/common/modules/geolocation/geolocation.service';
-import { WeatherService } from 'src/common/modules/weather/weather.service';
-import { LocationNotFoundException } from 'src/common/responses';
+import { isValidIp } from '../common/utils/validation';
+import { GeolocationService } from '../common/modules/geolocation/geolocation.service';
+import { WeatherService } from '../common/modules/weather/weather.service';
+import { InvalidIpException } from '../common/responses';
+import { LocationNotFoundException } from '../common/responses';
 import { ForecastResponseDto } from './dto';
 
 @Injectable()
@@ -13,6 +15,8 @@ export class ForecastService {
   ) {}
 
   async getForecast(ip: string, city?: string): Promise<ForecastResponseDto> {
+    if (!city && !isValidIp(ip)) throw new InvalidIpException();
+
     let lat, lon;
 
     if (city) {

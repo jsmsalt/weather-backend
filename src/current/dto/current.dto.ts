@@ -1,7 +1,7 @@
 import { Exclude, Expose } from 'class-transformer';
 import { IsString, IsOptional } from 'class-validator';
 
-import { ICurrentResponse } from 'src/common/modules/weather/interfaces';
+import { ICurrentResponse } from '../../common/modules/weather/interfaces';
 
 export class CurrenParamsDto {
   @IsString()

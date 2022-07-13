@@ -2,9 +2,9 @@ import { ClassSerializerInterceptor, Controller, Get } from '@nestjs/common';
 import { Param, UseGuards, UseInterceptors } from '@nestjs/common';
 import { ApiParam, ApiTags } from '@nestjs/swagger';
 
-import { RealIp } from 'src/common/decorators';
-import { RateLimitGuard } from 'src/common/guards';
-import { HttpCacheInterceptor } from 'src/common/interceptors';
+import { RealIp } from '../common/decorators';
+import { RateLimitGuard } from '../common/guards';
+import { HttpCacheInterceptor } from '../common/interceptors';
 import { ForecastParamsDto, ForecastResponseDto } from './dto';
 import { ForecastService } from './forecast.service';
 
