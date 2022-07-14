@@ -1,6 +1,6 @@
 import { ClassSerializerInterceptor, Controller, Query } from '@nestjs/common';
 import { Get, UseGuards, UseInterceptors } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiQuery, ApiTags } from '@nestjs/swagger';
 
 import { RealIp } from '../common/decorators';
 import { RateLimitGuard } from '../common/guards';
@@ -23,6 +23,11 @@ export class LocationController {
   }
 
   @Get('/search')
+  @ApiQuery({
+    name: 'q',
+    required: true,
+    description: 'Query Location',
+  })
   async searchLocations(
     @Query() queries: LocationQueryDto,
   ): Promise<Array<GeolocationResponseDto>> {
