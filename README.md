@@ -1,24 +1,35 @@
 ## Description
 
-A simple weather API developed in NestJS
+A simple weather API developed in NestJS. Here is a [demo](https://weather-backend.up.railway.app/docs).
+
+
 
 ## Features
 
-- Weather Endpoint
-- Forecast Endpoint
-- Geolocation Endpoints
+- Weather, Forecast and Geolocation endpoints
+- Modular Architecture
 - DTOs Validation/Transformation
 - Rate Limiting
 - Caching Responses (Redis)
-- Swagger Documentation (/docs)
+- Swagger/OpenAPI Documentation (/docs)
 - Unit Testing
 - E2E Testing
+
+ 
+
+## Documentation
+
+`http//localhost:8080/docs`
+
+
 
 ## Installation
 
 ```bash
 $ npm install
 ```
+
+
 
 ## Running the app
 
@@ -32,11 +43,12 @@ $ npm run start:dev
 # production mode
 $ npm run build
 $ npm run start:prod
+
+# docker
+$ docker-compose up -d
 ```
 
-## Documentation
 
-`http//localhost:8080/docs`
 
 ## Test
 
@@ -50,3 +62,13 @@ $ npm run test:e2e
 # test coverage
 $ npm run test:cov
 ```
+
+
+
+## TODO
+
+- Add Husky Git hooks_
+
+- Add semantic versioning
+
+- GitHub Actions
