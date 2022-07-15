@@ -2,8 +2,6 @@
 
 A simple weather API developed in NestJS. Here is a [demo](https://weather-backend.up.railway.app/docs).
 
-
-
 ## Features
 
 - Weather, Forecast and Geolocation endpoints
@@ -15,21 +13,15 @@ A simple weather API developed in NestJS. Here is a [demo](https://weather-backe
 - Unit Testing
 - E2E Testing
 
- 
-
 ## Documentation
 
 `http//localhost:8080/docs`
-
-
 
 ## Installation
 
 ```bash
 $ npm install
 ```
-
-
 
 ## Running the app
 
@@ -48,7 +40,13 @@ $ npm run start:prod
 $ docker-compose up -d
 ```
 
+## Ngrok
 
+Use [Ngrok](https://ngrok.com/) to expose the app on a public URL in development mode to manually test the geolocation feature.
+
+```bash
+$ ngrok http 8080
+```
 
 ## Test
 
@@ -63,11 +61,9 @@ $ npm run test:e2e
 $ npm run test:cov
 ```
 
-
-
 ## TODO
 
-- Add Husky Git hooks_
+- Add Husky Git hooks\_
 
 - Add semantic versioning
 
