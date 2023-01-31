@@ -68,3 +68,5 @@ $ npm run test:cov
 - Add semantic versioning
 
 - GitHub Actions
+
+.
